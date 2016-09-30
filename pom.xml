@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.eu.webservices</groupId>
+    <artifactId>ws-study</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+	<modules>
+        <module>flights-webservice</module>
+        <module>flights-test-rsclient</module>
+        <module>flights-test-rsclient-generated</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>glassfish-context</id>
+            <properties>
+                <local.glassfish.home>c:/glassfish4.1.1/glassfish</local.glassfish.home>
+                <local.glassfish.user>admin</local.glassfish.user>
+                <local.glassfish.domain>domain1</local.glassfish.domain>
+                <local.glassfish.passfile>
+                    ${local.glassfish.home}/domains/${local.glassfish.domain}/config/domain-passwords
+                </local.glassfish.passfile>
+            </properties>
+        </profile>
+    </profiles>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>
