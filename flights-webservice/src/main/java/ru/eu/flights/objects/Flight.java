@@ -29,6 +29,9 @@ public class Flight {
     private String duration;
     private boolean existFreePlaces;
 
+    public Flight() {
+    }
+
     public long getId() {
         return id;
     }

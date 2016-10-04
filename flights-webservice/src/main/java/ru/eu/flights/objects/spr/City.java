@@ -15,6 +15,9 @@ public class City {
     private String code;
     private Country country;
 
+    public City() {
+    }
+
     public long getId() {
         return id;
     }

@@ -6,6 +6,9 @@ public class Company {
     private String name;
     private String desc;
 
+    public Company() {
+    }
+
     public long getId() {
         return id;
     }

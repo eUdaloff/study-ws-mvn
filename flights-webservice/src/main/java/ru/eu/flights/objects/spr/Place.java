@@ -1,19 +1,26 @@
 package ru.eu.flights.objects.spr;
 
+import ru.eu.flights.objects.adapter.CharacterAdapter;
 import ru.eu.flights.ws.annotations.ExceptionMessage;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @ExceptionMessage(message = "Не указано место")
 public class Place {
 
     private long id;
-    private char seatLetter;
+
+    @XmlJavaTypeAdapter(CharacterAdapter.class)
+    private Character seatLetter;
     private int seatNumber;
     private FlightClass flightClass;
     private boolean busy;
+
+    public Place() {
+    }
 
     public long getId() {
         return id;
@@ -23,11 +30,11 @@ public class Place {
         this.id = id;
     }
 
-    public char getSeatLetter() {
+    public Character getSeatLetter() {
         return seatLetter;
     }
 
-    public void setSeatLetter(char seatLetter) {
+    public void setSeatLetter(Character seatLetter) {
         this.seatLetter = seatLetter;
     }
 

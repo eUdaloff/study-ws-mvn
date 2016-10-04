@@ -11,6 +11,8 @@ public class Country {
     private String desc;
     private byte[] flag;
 
+    public Country() {
+    }
 
     public long getId() {
         return id;

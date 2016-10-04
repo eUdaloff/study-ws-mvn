@@ -14,6 +14,9 @@ public class Reservation {
     private Calendar reserveDateTime;
     private String code;
 
+    public Reservation() {
+    }
+
     public long getId() {
         return id;
     }

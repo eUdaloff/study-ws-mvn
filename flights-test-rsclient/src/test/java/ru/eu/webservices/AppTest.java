@@ -30,9 +30,9 @@ public class AppTest extends TestCase {
      * Rigourous Test :-)
      */
     public void testApp() {
-        //assertTrue(true);
-        for(City c : FlightsWS_REST.flights().cities().getAsCityList().getCity()) {
-            System.out.println(c.getName());
-        }
+        assertTrue(true);
+//        for(City c : FlightsWS_REST.flights().cities().getAsCityList().getCity()) {
+//            System.out.println(c.getName());
+//        }
     }
 }

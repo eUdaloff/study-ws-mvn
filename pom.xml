@@ -9,10 +9,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-	<modules>
+    <modules>
         <module>flights-webservice</module>
+        <module>flights-rsclient</module>
+        <module>flights-rsclient-generated</module>
         <module>flights-test-rsclient</module>
-        <module>flights-test-rsclient-generated</module>
     </modules>
 
     <profiles>
@@ -33,4 +34,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -29,6 +29,9 @@ public class Passenger {
     private String email;
     private String phone;
 
+    public Passenger() {
+    }
+
     public long getId() {
         return id;
     }

@@ -22,7 +22,7 @@ public class SearchImpl implements Search {
     public Set<Flight> searchFlights(long date, City cityFrom, City cityTo, int placeCount) {
         Calendar cal = GMTCalendar.getInstance();
         cal.setTimeInMillis(date);
-        Set<Flight> flights = new HashSet<Flight>();
+        Set<Flight> flights = new HashSet();
         try {
             flights.addAll(flightDB.executeCollection(flightDB.getFlightsByDateAndCitiesStmt(cal, cityFrom, cityTo)));
         } catch (SQLException e) {
@@ -32,7 +32,7 @@ public class SearchImpl implements Search {
     }
 
     public Set<City> getAllCities() {
-        Set<City> cities = new HashSet<City>();
+        Set<City> cities = new HashSet();
         try {
             cities.addAll(cityDB.executeCollection(cityDB.getAllObjectsStmt()));
         } catch (SQLException e) {

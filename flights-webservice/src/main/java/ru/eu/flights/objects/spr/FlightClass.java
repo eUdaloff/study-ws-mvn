@@ -6,6 +6,9 @@ public class FlightClass {
     private String name;
     private String desc;
 
+    public FlightClass() {
+    }
+
     public long getId() {
         return id;
     }

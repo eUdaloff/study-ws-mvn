@@ -9,8 +9,10 @@ public class Aircraft {
     private String desc;
     private Set<Place> placeList;
     private Set<Place> freePlaceList;
-
     private Company company;
+
+    public Aircraft() {
+    }
 
     public long getId() {
         return id;
