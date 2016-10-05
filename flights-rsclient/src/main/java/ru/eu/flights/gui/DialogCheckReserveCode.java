@@ -9,6 +9,8 @@ import ru.eu.flights.callback.WsResultListener;
 import ru.eu.flights.client.FlightRS_Client;
 import ru.eu.flights.object.ExtPlace;
 import ru.eu.flights.utils.MessageManager;
+import ru.eu.webservices.generated.Place;
+import ru.eu.webservices.generated.Reservation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,23 +59,33 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         setTitle("Проверка брони");
         pack();
+        setLocationRelativeTo(null);
         showOrHideProgressBar(false);
         Receptionist.getInstance().addListener(this, ListenerType.CHECK_RESERVATION);
     }
 
     private void btnCheckReservationActionPerformed() {
-//        String code = txtReservationCode.getText();
-//        if (code == null || code.isEmpty()) {
-//            MessageManager.showInformMessage(this, "Внимание", "Укажите код брони");
-//            return;
-//        }
-//        showOrHideProgressBar(true);
-//        try {
-//            flightWSClient.checkReservationByCode(code);
-//        } catch (InvalidArgumentMN e) {
-//            Logger.getLogger(DialogCheckReserveCode.class.getName()).log(Level.SEVERE, null, e);
-//            MessageManager.showErrorMessage(this, "Ошибка", e.getMessage());
-//        }
+        String code = txtReservationCode.getText();
+        if (code == null || code.isEmpty()) {
+            MessageManager.showInformMessage(this, "Внимание", "Укажите код брони");
+            return;
+        }
+        showOrHideProgressBar(true);
+        Reservation reservation = flightWSClient.checkReservationByCode(code);
+        String msg;
+        if (reservation != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Рейс: ").append(reservation.getFlight().getCode()).append("\n");
+            sb.append("Самолет: ").append(reservation.getFlight().getAircraft().getName()).append("\n");
+            sb.append("Дата вылета: ").append(reservation.getFlight().getDateDepart()).append("\n");
+            sb.append("Дата прилета: ").append(reservation.getFlight().getDateArrive()).append("\n");
+            sb.append("Место: ").append(transformToExtPlace(reservation.getPlace())).append("\n");
+            msg = sb.toString();
+        } else {
+            msg = "Бронь не найдена";
+        }
+        MessageManager.showInformMessage(DialogCheckReserveCode.this, "Результат проверки", msg);
+        showOrHideProgressBar(false);
     }
 
 //        flightWSClient.checkReservationByCodeAsyncCallback(code, res -> {
@@ -100,15 +112,15 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
 //        });
 
 
-//    private ExtPlace transformToExtPlace(Place place) {
-//        ExtPlace ep = new ExtPlace();
-//        ep.setId(place.getId());
-//        ep.setBusy(place.isBusy());
-//        ep.setFlightClass(place.getFlightClass());
-//        ep.setSeatLetter(place.getSeatLetter());
-//        ep.setSeatNumber(place.getSeatNumber());
-//        return ep;
-//    }
+    private ExtPlace transformToExtPlace(Place place) {
+        ExtPlace ep = new ExtPlace();
+        ep.setId(place.getId());
+        ep.setBusy(place.isBusy());
+        ep.setFlightClass(place.getFlightClass());
+        ep.setSeatLetter(place.getSeatLetter());
+        ep.setSeatNumber(place.getSeatNumber());
+        return ep;
+    }
 
     private void onCancel() {
         dispose();

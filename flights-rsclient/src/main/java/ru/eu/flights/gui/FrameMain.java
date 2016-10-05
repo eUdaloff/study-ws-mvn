@@ -53,6 +53,7 @@ public class FrameMain extends JFrame implements WsResultListener {
         dateFlight.setTimeZone(TimeZone.getTimeZone("GMT"));
         setContentPane(rootPanel);
         pack();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         btSearchFlights.addActionListener(new ActionListener() {
             @Override

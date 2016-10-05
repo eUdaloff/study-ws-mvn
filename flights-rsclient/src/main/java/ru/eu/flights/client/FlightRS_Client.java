@@ -1,11 +1,15 @@
 package ru.eu.flights.client;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
+
 import ru.eu.flights.object.ExtCity;
 import ru.eu.webservices.generated.*;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+
+
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +23,7 @@ public class FlightRS_Client {
     private static final String BASE_URL = "http://localhost:8080/flights-ws/rest";
 
     private FlightRS_Client() {
-        client = ClientBuilder.newClient();
+        client = ClientBuilder.newClient().register(JacksonFeature.class);
     }
 
     public static FlightRS_Client getInstance() {
@@ -68,17 +72,17 @@ public class FlightRS_Client {
         p.setFlight(flight);
         p.setPlace(place);
         p.setAddInfo(addInfo);
-        Boolean result = client.target(BASE_URL).path("flights/buyTicket")
+        BuyTicketResult result = client.target(BASE_URL).path("flights/buyTicket")
                 .request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(p, MediaType.APPLICATION_JSON), Boolean.class);
-        return result;
+                .post(Entity.entity(p, MediaType.APPLICATION_JSON), BuyTicketResult.class);
+        return result.isBuyResult();
     }
 
     public Reservation checkReservationByCode(String code) {
-        Reservation r = client.target(BASE_URL).path("flights/buyTicket").queryParam("code", code)
+        CheckReservationResult r = client.target(BASE_URL).path("flights/checkReservationByCode").queryParam("code", code)
                 .request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-                .get(Reservation.class);
-        return r;
+                .get(CheckReservationResult.class);
+        return r.getReservation();
     }
 
     public void close() {

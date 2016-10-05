@@ -3,6 +3,8 @@
 
   <xs:element name="buyTicketParam" type="buyTicketParam"/>
 
+  <xs:element name="buyTicketResult" type="buyTicketResult"/>
+
   <xs:element name="checkReservationResult" type="checkReservationResult"/>
 
   <xs:element name="citylist" type="cityList"/>
@@ -11,11 +13,9 @@
 
   <xs:element name="searchParam" type="searchFlightParam"/>
 
-  <xs:complexType name="searchFlightParam">
+  <xs:complexType name="cityList">
     <xs:sequence>
-      <xs:element name="date" type="xs:long" minOccurs="0"/>
-      <xs:element name="from" type="city" minOccurs="0"/>
-      <xs:element name="to" type="city" minOccurs="0"/>
+      <xs:element name="city" type="city" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -120,6 +120,12 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="buyTicketResult">
+    <xs:sequence>
+      <xs:element name="buyResult" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="flightList">
     <xs:sequence>
       <xs:element name="flights" type="flight" minOccurs="0" maxOccurs="unbounded"/>
@@ -135,9 +141,11 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="cityList">
+  <xs:complexType name="searchFlightParam">
     <xs:sequence>
-      <xs:element name="city" type="city" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="date" type="xs:long" minOccurs="0"/>
+      <xs:element name="from" type="city" minOccurs="0"/>
+      <xs:element name="to" type="city" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

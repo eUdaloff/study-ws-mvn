@@ -24,9 +24,9 @@ public class FlightRS {
     private CheckImpl checkImpl = new CheckImpl();
     private BuyImpl buyImpl = new BuyImpl();
 
-//    public FlightRS() {
-//        ProxySelector.setDefault(new CustomProxySelector());
-//    }
+    public FlightRS() {
+        ProxySelector.setDefault(new CustomProxySelector());
+    }
 
     @GET
     @Path("cities")
@@ -50,8 +50,10 @@ public class FlightRS {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("buyTicket")
-    public boolean buyTicket(BuyTicketParam p) {
-        return buyImpl.buyTicket(p.getPassenger(), p.getFlight(), p.getPlace(), p.getAddInfo());
+    public BuyTicketResult buyTicket(BuyTicketParam p) {
+        BuyTicketResult b = new BuyTicketResult();
+        b.setResult(buyImpl.buyTicket(p.getPassenger(), p.getFlight(), p.getPlace(), p.getAddInfo()));
+        return b;
     }
 
     @GET

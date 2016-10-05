@@ -69,6 +69,7 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         setTitle("Покупка билета");
         pack();
+        setLocationRelativeTo(null);
         showOrHideProgressBar(false);
         Receptionist.getInstance().addListener(this, ListenerType.BUY_TICKET);
     }

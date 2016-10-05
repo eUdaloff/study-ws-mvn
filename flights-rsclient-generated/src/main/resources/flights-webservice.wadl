@@ -9,10 +9,13 @@
     </grammars>
     <resources base="http://localhost:8080/flights-ws/rest/">
         <resource path="flights">
-            <resource path="cities">
-                <method id="getAllCities" name="GET">
+            <resource path="checkReservationByCode">
+                <method id="checkReservationByCode" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="code" style="query" type="xs:string"/>
+                    </request>
                     <response>
-                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="citylist" mediaType="application/json"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="checkReservationResult" mediaType="application/json"/>
                     </response>
                 </method>
             </resource>
@@ -32,17 +35,14 @@
                         <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buyTicketParam" mediaType="application/json"/>
                     </request>
                     <response>
-                        <representation mediaType="application/json"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="buyTicketResult" mediaType="application/json"/>
                     </response>
                 </method>
             </resource>
-            <resource path="checkReservationByCode">
-                <method id="checkReservationByCode" name="GET">
-                    <request>
-                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="code" style="query" type="xs:string"/>
-                    </request>
+            <resource path="cities">
+                <method id="getAllCities" name="GET">
                     <response>
-                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="checkReservationResult" mediaType="application/json"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="citylist" mediaType="application/json"/>
                     </response>
                 </method>
             </resource>
