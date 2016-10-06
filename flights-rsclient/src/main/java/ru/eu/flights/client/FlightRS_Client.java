@@ -34,7 +34,8 @@ public class FlightRS_Client {
 
     public List<ExtCity> getAllCities() {
         System.out.println("Requesting cities...");
-        CityList cityList = client.target(BASE_URL).path("flights/cities").request(MediaType.APPLICATION_JSON).get(CityList.class);
+        CityList cityList = client.target(BASE_URL).path("flights/cities")
+                .request(MediaType.APPLICATION_JSON).get(CityList.class);
         List<ExtCity> cities = new ArrayList();
         for (City c : cityList.getCity()) {
             ExtCity extCity = new ExtCity();
@@ -53,15 +54,12 @@ public class FlightRS_Client {
         return cities;
     }
 
-    public List<Flight> searchFlights(Long date, City from, City to) {
+    public List<Flight> searchFlights(Long flightDate, Long cityIdFrom, Long cityIdTo) {
         System.out.println("Requesting flights...");
-        SearchFlightParam p = new SearchFlightParam();
-        p.setDate(date);
-        p.setFrom(from);
-        p.setTo(to);
-        FlightList fl = client.target(BASE_URL).path("flights/searchFlights")
+        FlightList fl = client.target(BASE_URL).path("flights/searchFlights").queryParam("flightDate", flightDate)
+                .queryParam("cityIdFrom", cityIdFrom).queryParam("cityIdTo", cityIdTo)
                 .request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(p, MediaType.APPLICATION_JSON), FlightList.class);
+                .get(FlightList.class);
         return fl.getFlights();
     }
 

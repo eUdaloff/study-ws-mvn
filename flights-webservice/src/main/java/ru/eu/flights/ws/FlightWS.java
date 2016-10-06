@@ -81,7 +81,7 @@ public class FlightWS implements FlightSEI {
         if (placeCount == 0 || placeCount < 0) {
             throw new ArgumentException("Неверное место");
         }
-        return searchImpl.searchFlights(date, cityFrom, cityTo, placeCount);
+        return searchImpl.searchFlights(date, cityFrom.getId(), cityTo.getId(), placeCount);
     }
 
     @Override

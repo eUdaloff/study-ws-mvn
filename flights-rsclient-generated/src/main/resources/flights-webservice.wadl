@@ -9,23 +9,10 @@
     </grammars>
     <resources base="http://localhost:8080/flights-ws/rest/">
         <resource path="flights">
-            <resource path="checkReservationByCode">
-                <method id="checkReservationByCode" name="GET">
-                    <request>
-                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="code" style="query" type="xs:string"/>
-                    </request>
+            <resource path="cities">
+                <method id="getAllCities" name="GET">
                     <response>
-                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="checkReservationResult" mediaType="application/json"/>
-                    </response>
-                </method>
-            </resource>
-            <resource path="searchFlights">
-                <method id="searchFlights" name="POST">
-                    <request>
-                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="searchParam" mediaType="application/json"/>
-                    </request>
-                    <response>
-                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="flightList" mediaType="application/json"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="citylist" mediaType="application/json"/>
                     </response>
                 </method>
             </resource>
@@ -39,10 +26,25 @@
                     </response>
                 </method>
             </resource>
-            <resource path="cities">
-                <method id="getAllCities" name="GET">
+            <resource path="searchFlights">
+                <method id="searchFlights" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="flightDate" style="query" type="xs:long"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="cityIdFrom" style="query" type="xs:long"/>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="cityIdTo" style="query" type="xs:long"/>
+                    </request>
                     <response>
-                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="citylist" mediaType="application/json"/>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="flightList" mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+            <resource path="checkReservationByCode">
+                <method id="checkReservationByCode" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="code" style="query" type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="checkReservationResult" mediaType="application/json"/>
                     </response>
                 </method>
             </resource>

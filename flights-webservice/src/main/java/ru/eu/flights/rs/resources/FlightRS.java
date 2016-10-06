@@ -4,10 +4,7 @@ import ru.eu.flights.interfaces.impls.BuyImpl;
 import ru.eu.flights.interfaces.impls.CheckImpl;
 import ru.eu.flights.interfaces.impls.SearchImpl;
 import ru.eu.flights.objects.Flight;
-import ru.eu.flights.objects.Passenger;
-import ru.eu.flights.objects.Reservation;
 import ru.eu.flights.objects.spr.City;
-import ru.eu.flights.objects.spr.Place;
 import ru.eu.flights.rs.resources.objects.*;
 import ru.eu.flights.ws.proxy.CustomProxySelector;
 
@@ -37,11 +34,13 @@ public class FlightRS {
         return responseList;
     }
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("searchFlights")
-    public FlightList searchFlights(SearchFlightParam p) {
-        Set<Flight> s = search.searchFlights(p.getDate(), p.getFrom(), p.getTo(), 1);
+    public FlightList searchFlights(@QueryParam("flightDate") Long flightDate,
+                                    @QueryParam("cityIdFrom") Long cityIdFrom,
+                                    @QueryParam("cityIdTo") Long cityIdTo) {
+        Set<Flight> s = search.searchFlights(flightDate, cityIdFrom, cityIdTo, 1);
         FlightList fl = new FlightList();
         fl.setFlights(s);
         return fl;
@@ -63,4 +62,5 @@ public class FlightRS {
         r.setReservation(checkImpl.checkReservationByCode(code));
         return r;
     }
+
 }

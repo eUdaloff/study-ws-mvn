@@ -11,7 +11,11 @@
 
   <xs:element name="flightList" type="flightList"/>
 
-  <xs:element name="searchParam" type="searchFlightParam"/>
+  <xs:complexType name="buyTicketResult">
+    <xs:sequence>
+      <xs:element name="buyResult" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="cityList">
     <xs:sequence>
@@ -39,21 +43,24 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="checkReservationResult">
+  <xs:complexType name="buyTicketParam">
     <xs:sequence>
-      <xs:element name="reservation" type="reservation" minOccurs="0"/>
+      <xs:element name="passenger" type="passenger" minOccurs="0"/>
+      <xs:element name="flight" type="flight" minOccurs="0"/>
+      <xs:element name="place" type="place" minOccurs="0"/>
+      <xs:element name="addInfo" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="reservation">
+  <xs:complexType name="passenger">
     <xs:sequence>
-      <xs:element name="addInfo" type="xs:string" minOccurs="0"/>
-      <xs:element name="code" type="xs:string" minOccurs="0"/>
-      <xs:element name="flight" type="flight" minOccurs="0"/>
       <xs:element name="id" type="xs:long"/>
-      <xs:element name="passenger" type="passenger" minOccurs="0"/>
-      <xs:element name="place" type="place" minOccurs="0"/>
-      <xs:element name="reserveDateTime" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="givenName" type="xs:string"/>
+      <xs:element name="middleName" type="xs:string" minOccurs="0"/>
+      <xs:element name="familyName" type="xs:string"/>
+      <xs:element name="documentNumber" type="xs:string"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:element name="phone" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -108,44 +115,27 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="passenger">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="givenName" type="xs:string"/>
-      <xs:element name="middleName" type="xs:string" minOccurs="0"/>
-      <xs:element name="familyName" type="xs:string"/>
-      <xs:element name="documentNumber" type="xs:string"/>
-      <xs:element name="email" type="xs:string" minOccurs="0"/>
-      <xs:element name="phone" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="buyTicketResult">
-    <xs:sequence>
-      <xs:element name="buyResult" type="xs:boolean"/>
-    </xs:sequence>
-  </xs:complexType>
-
   <xs:complexType name="flightList">
     <xs:sequence>
       <xs:element name="flights" type="flight" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="buyTicketParam">
+  <xs:complexType name="checkReservationResult">
     <xs:sequence>
-      <xs:element name="passenger" type="passenger" minOccurs="0"/>
-      <xs:element name="flight" type="flight" minOccurs="0"/>
-      <xs:element name="place" type="place" minOccurs="0"/>
-      <xs:element name="addInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="reservation" type="reservation" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="searchFlightParam">
+  <xs:complexType name="reservation">
     <xs:sequence>
-      <xs:element name="date" type="xs:long" minOccurs="0"/>
-      <xs:element name="from" type="city" minOccurs="0"/>
-      <xs:element name="to" type="city" minOccurs="0"/>
+      <xs:element name="addInfo" type="xs:string" minOccurs="0"/>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
+      <xs:element name="flight" type="flight" minOccurs="0"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="passenger" type="passenger" minOccurs="0"/>
+      <xs:element name="place" type="place" minOccurs="0"/>
+      <xs:element name="reserveDateTime" type="xs:dateTime" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

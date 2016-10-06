@@ -102,7 +102,7 @@ public class FlightDB extends AbstractObjectDB<Flight> {
         return stmt;
     }
 
-    public PreparedStatement getFlightsByDateAndCitiesStmt(Calendar dateDepart, City from, City to) throws SQLException {
+    public PreparedStatement getFlightsByDateAndCitiesStmt(Calendar dateDepart, Long cityIdFrom, Long cityIdTo) throws SQLException {
         Connection c = AviaDB.getInstance().getConnection();
         PreparedStatement stmt = c.prepareStatement("SELECT f.id, f.code, f.date_depart, f.date_arrive, f.aircraft_id, f.city_from_id, f.city_to_id " +
                 "FROM avia.flight AS f " +
@@ -115,8 +115,8 @@ public class FlightDB extends AbstractObjectDB<Flight> {
 
         stmt.setLong(1, dateDepart.getTimeInMillis());
         stmt.setLong(2, dateDepartInterval.getTimeInMillis());
-        stmt.setLong(3, from.getId());
-        stmt.setLong(4, to.getId());
+        stmt.setLong(3, cityIdFrom);
+        stmt.setLong(4, cityIdTo);
 
         return stmt;
     }

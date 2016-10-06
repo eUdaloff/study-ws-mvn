@@ -19,7 +19,8 @@ public class SearchImpl implements Search {
     FlightDB flightDB = FlightDB.getInstance();
     CityDB cityDB = CityDB.getInstance();
 
-    public Set<Flight> searchFlights(long date, City cityFrom, City cityTo, int placeCount) {
+    @Override
+    public Set<Flight> searchFlights(long date, Long cityFrom, Long cityTo, int placeCount) {
         Calendar cal = GMTCalendar.getInstance();
         cal.setTimeInMillis(date);
         Set<Flight> flights = new HashSet();
@@ -31,6 +32,7 @@ public class SearchImpl implements Search {
         return flights;
     }
 
+    @Override
     public Set<City> getAllCities() {
         Set<City> cities = new HashSet();
         try {

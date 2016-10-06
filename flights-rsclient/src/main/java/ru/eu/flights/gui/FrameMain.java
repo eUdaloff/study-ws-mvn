@@ -141,7 +141,7 @@ public class FrameMain extends JFrame implements WsResultListener {
         Date dateDepart = dateFlight.getDate();
         long dateDepartMilliseconds = dateDepart == null ? 0 : dateDepart.getTime();
         showOrHideProgressBar(true);
-        List<Flight> list = flightWSClient.searchFlights(dateDepartMilliseconds, from, to);
+        List<Flight> list = flightWSClient.searchFlights(dateDepartMilliseconds, from.getId(), to.getId());
         if (list == null || list.isEmpty()) {
             MessageManager.showInformMessage(this, "Результаты поиска", "Ничего не найдено");
         } else {

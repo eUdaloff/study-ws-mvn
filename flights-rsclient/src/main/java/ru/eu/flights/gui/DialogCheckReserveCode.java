@@ -15,8 +15,6 @@ import ru.eu.webservices.generated.Reservation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class DialogCheckReserveCode extends JDialog implements WsResultListener {

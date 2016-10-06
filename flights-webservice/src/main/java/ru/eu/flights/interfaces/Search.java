@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface Search {
 
-    Set<Flight> searchFlights(long date, City cityFrom, City cityTo, int placeCount);
+    Set<Flight> searchFlights(long date, Long cityIdFrom, Long cityIdTo, int placeCount);
 
     Set<City> getAllCities();
 
