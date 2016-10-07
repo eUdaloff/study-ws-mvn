@@ -11,9 +11,11 @@
 
     <modules>
         <module>flights-webservice</module>
-        <module>flights-rsclient</module>
+        <module>flights-wsclient-generated</module>
+        <module>flights-wsclient</module>
         <module>flights-rsclient-generated</module>
         <module>flights-test-rsclient</module>
+        <module>flights-rsclient</module>
     </modules>
 
     <profiles>

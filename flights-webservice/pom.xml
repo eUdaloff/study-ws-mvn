@@ -41,18 +41,6 @@
                 <groupId>org.glassfish.maven.plugin</groupId>
                 <artifactId>maven-glassfish-plugin</artifactId>
                 <version>2.1</version>
-
-                <!--
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                -->
-
                 <configuration>
                     <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
                     <user>admin</user>
@@ -88,6 +76,27 @@
                 <configuration>
                     <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-wsdl</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <sei>ru.eu.flights.ws.FlightWS</sei>
+                            <genWsdl>true</genWsdl>
+                            <resourceDestDir>${project.build.directory}/generated-sources/wsdl</resourceDestDir>
+                            <!-- <inlineSchemas>true</inlineSchemas> -->
+                            <keep>false</keep>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
