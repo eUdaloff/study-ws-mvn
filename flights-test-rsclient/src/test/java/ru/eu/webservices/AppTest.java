@@ -3,9 +3,6 @@ package ru.eu.webservices;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import ru.eu.webservices.generated.City;
-import ru.eu.webservices.generated.FlightsWS_REST;
-
 /**
  * Unit test for simple TestRSClient.
  */

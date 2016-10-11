@@ -3,17 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-	<parent>
+    <parent>
         <groupId>ru.eu.webservices</groupId>
         <artifactId>ws-study</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>flights-webservice</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -33,7 +30,6 @@
             <version>3.0.0</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>flights-ws</finalName>
         <plugins>
@@ -62,15 +58,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
@@ -91,16 +78,112 @@
                         <configuration>
                             <sei>ru.eu.flights.ws.FlightWS</sei>
                             <genWsdl>true</genWsdl>
-                            <resourceDestDir>${project.build.directory}/generated-sources/wsdl</resourceDestDir>
-                            <!-- <inlineSchemas>true</inlineSchemas> -->
+                            <resourceDestDir>${project.build.directory}/generated-resources/wsdl</resourceDestDir>
                             <keep>false</keep>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2wadl-plugin</artifactId>
+                <version>3.1.7</version>
+                <executions>
+                    <execution>
+                        <id>generate-wadl</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>java2wadl</goal>
+                        </goals>
+                        <configuration>
+                            <classResourceNames>
+                                <classResourceName>ru.eu.flights.rs.resources.FlightRS</classResourceName>
+                            </classResourceNames>
+                            <attachWadl>true</attachWadl>
+                            <outputFile>${project.build.directory}/generated-resources/wadl/application.wadl</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
+            <plugin>
+                <groupId>com.sun.jersey.contribs</groupId>
+                <artifactId>maven-wadl-plugin</artifactId>
+                <version>1.19.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-wadl</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <wadlFile>${project.build.outputDirectory}/application.wadl</wadlFile>
+                    <formatWadlFile>true</formatWadlFile>
+                    <baseUri>http://localhost:8080/flights-ws/rest</baseUri>
+                    <packagesResourceConfig>
+                        <param>ru.eu.flights.rs.resources</param>
+                    </packagesResourceConfig>
+                    <wadlGenerators>
+                        <wadlGeneratorDescription>
+                            <className>com.sun.jersey.server.wadl.generators.WadlGeneratorApplicationDoc
+                            </className>
+                            <properties>
+                                <property>
+                                    <name>applicationDocsFile</name>
+                                    <value>${basedir}/src/main/doc/application-doc.xml</value>
+                                </property>
+                            </properties>
+                        </wadlGeneratorDescription>
+                        <wadlGeneratorDescription>
+                            <className>com.sun.jersey.server.wadl.generators.WadlGeneratorGrammarsSupport
+                            </className>
+                            <properties>
+                                <property>
+                                    <name>grammarsFile</name>
+                                    <value>${basedir}/src/main/doc/application-grammars.xml</value>
+                                </property>
+                            </properties>
+                        </wadlGeneratorDescription>
+                    </wadlGenerators>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                        <version>2.11.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/flights-ws/WEB-INF/wadl</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.outputDirectory}</directory>
+                                    <includes>
+                                        <include>application.wadl</include>
+                                        <include>xsd0.xsd</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <profile>
             <id>glassfish-context</id>

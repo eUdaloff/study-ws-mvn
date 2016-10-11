@@ -3,16 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>ru.eu.webservices</groupId>
         <artifactId>ws-study</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>flights-wsclient-generated</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -20,37 +17,61 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ru.eu.webservices</groupId>
+            <artifactId>flights-webservice</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
+                <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-wsdl</id>
-                        <phase>generate-sources</phase>
+                        <id>unpack-web-service-wsdl</id>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/src/main/wsdl</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>../flights_webservice/target/generated-sources/wsdl</directory>
-                                    <includes>
-                                        <include>FlightWebService.wsdl</include>
-                                        <include>FlightWS.wsdl</include>
-                                        <include>FlightWS_schema1.xsd</include>
-                                    </includes>
-                                </resource>
-                            </resources>
+                            <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+                            <includeGroupIds>ru.eu.webservices</includeGroupIds>
+                            <includeArtifactIds>flights-webservice</includeArtifactIds>
+                            <includes>**\wsdl\/*.wsdl,**\wsdl\/*.xsd</includes>
+                            <excludeTransitive>true</excludeTransitive>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>wsimport-from-webservice</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                     <wsdlDirectory>${project.build.directory}/generated-resources/WEB-INF/wsdl</wsdlDirectory>
+                    <wsdlFiles>
+                        <wsdlFile>FlightWebService.wsdl</wsdlFile>
+                    </wsdlFiles>
+                    <keep>true</keep>
+                    <packageName>ru.eu.flights.client.generated</packageName>
+                    <vmArgs>
+                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                    </vmArgs>
+                    <wsdlLocation>http://tvrit10:8080/flights-ws/FlightWebService?wsdl</wsdlLocation>
+                </configuration>
             </plugin>
         </plugins>
     </build>

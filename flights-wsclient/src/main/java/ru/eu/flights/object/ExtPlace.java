@@ -7,6 +7,6 @@ public class ExtPlace extends Place {
     @Override
     public String toString() {
 
-        return String.valueOf(new Character((char) getSeatLetter())) + String.valueOf(getSeatNumber());
+        return getSeatLetter() + String.valueOf(getSeatNumber());
     }
 }

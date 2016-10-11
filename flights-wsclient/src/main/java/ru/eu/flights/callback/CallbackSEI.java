@@ -6,10 +6,7 @@ import ru.eu.flights.client.generated.Reservation;
 import ru.eu.flights.object.ExtCity;
 
 import javax.annotation.Resource;
-import javax.jws.HandlerChain;
-import javax.jws.Oneway;
-import javax.jws.WebParam;
-import javax.jws.WebService;
+import javax.jws.*;
 import javax.xml.ws.Action;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.WebServiceContext;
@@ -30,6 +27,7 @@ public class CallbackSEI {
     private WebServiceContext context;
 
     @Oneway
+    @WebMethod
     @Action(input = "http://flights.eu.ru/ws/FlightWS/buyTicketResponse")
     @RequestWrapper(localName = "buyTicketResponse", targetNamespace = "http://flights.eu.ru/ws", className = "ru.eu.flights.client.generated.BuyTicketResponse")
     public void buyTicketCallback(@WebParam(name = "return") boolean result) {
@@ -37,10 +35,11 @@ public class CallbackSEI {
     }
 
     @Oneway
+    @WebMethod
     @Action(input = "http://flights.eu.ru/ws/FlightWS/getAllCitiesResponse")
     @RequestWrapper(localName = "getAllCitiesResponse", targetNamespace = "http://flights.eu.ru/ws", className = "ru.eu.flights.client.generated.GetAllCitiesResponse")
     public void getAllCitiesCallback(@WebParam(name = "return") List<City> list) {
-        List<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList();
         for (City c : list) {
             ExtCity extCity = new ExtCity();
             extCity.setId(c.getId());
@@ -60,6 +59,7 @@ public class CallbackSEI {
     }
 
     @Oneway
+    @WebMethod
     @Action(input = "http://flights.eu.ru/ws/FlightWS/searchFlightsResponse")
     @RequestWrapper(localName = "searchFlightsResponse", targetNamespace = "http://flights.eu.ru/ws", className = "ru.eu.flights.client.generated.SearchFlightsResponse")
     public void searchFlightsCallback(@WebParam(name = "return") List<Flight> list) {
@@ -67,6 +67,7 @@ public class CallbackSEI {
     }
 
     @Oneway
+    @WebMethod
     @Action(input = "http://flights.eu.ru/ws/FlightWS/checkReservationByCodeResponse")
     @RequestWrapper(localName = "checkReservationByCodeResponse", targetNamespace = "http://flights.eu.ru/ws", className = "ru.eu.flights.client.generated.CheckReservationByCodeResponse")
     public void checkReservationByCodesCallback(@WebParam(name = "return") Reservation reservation) {

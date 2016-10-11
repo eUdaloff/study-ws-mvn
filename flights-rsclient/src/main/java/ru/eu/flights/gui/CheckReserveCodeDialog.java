@@ -17,7 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class DialogCheckReserveCode extends JDialog implements WsResultListener {
+public class CheckReserveCodeDialog extends JDialog implements WsResultListener {
 
     private JPanel contentPane;
     private JButton btnCheckReservation;
@@ -27,7 +27,7 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
 
     private FlightRS_Client flightWSClient = FlightRS_Client.getInstance();
 
-    public DialogCheckReserveCode(Frame owner, boolean modal) {
+    public CheckReserveCodeDialog(Frame owner, boolean modal) {
         super(owner, modal);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(btnCheckReservation);
@@ -82,7 +82,7 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
         } else {
             msg = "Бронь не найдена";
         }
-        MessageManager.showInformMessage(DialogCheckReserveCode.this, "Результат проверки", msg);
+        MessageManager.showInformMessage(CheckReserveCodeDialog.this, "Результат проверки", msg);
         showOrHideProgressBar(false);
     }
 
@@ -101,9 +101,9 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
 //                } else {
 //                    msg = "Бронь не найдена";
 //                }
-//                MessageManager.showInformMessage(DialogCheckReserveCode.this, "Результат проверки", msg);
+//                MessageManager.showInformMessage(CheckReserveCodeDialog.this, "Результат проверки", msg);
 //            } catch (InterruptedException | ExecutionException e) {
-//                Logger.getLogger(DialogCheckReserveCode.class.getName()).log(Level.SEVERE, null, e);
+//                Logger.getLogger(CheckReserveCodeDialog.class.getName()).log(Level.SEVERE, null, e);
 //                MessageManager.showErrorMessage(this, "Ошибка", e.getMessage());
 //            }
 //            showOrHideProgressBar(false);
@@ -125,7 +125,7 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
     }
 
     public static void main(String[] args) {
-        DialogCheckReserveCode dialog = new DialogCheckReserveCode(null, false);
+        CheckReserveCodeDialog dialog = new CheckReserveCodeDialog(null, false);
         dialog.pack();
         dialog.setVisible(true);
     }
@@ -150,7 +150,7 @@ public class DialogCheckReserveCode extends JDialog implements WsResultListener 
 //        } else {
 //            msg = "Бронь не найдена";
 //        }
-//        MessageManager.showInformMessage(DialogCheckReserveCode.this, "Результат проверки", msg);
+//        MessageManager.showInformMessage(CheckReserveCodeDialog.this, "Результат проверки", msg);
     }
 
     {

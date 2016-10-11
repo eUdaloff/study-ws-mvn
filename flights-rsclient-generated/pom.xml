@@ -3,16 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>ru.eu.webservices</groupId>
         <artifactId>ws-study</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    
     <artifactId>flights-rsclient-generated</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <repositories>
         <repository>
             <id>wadl-repository</id>
@@ -49,7 +46,6 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -67,10 +63,35 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>2.23.2</version>
         </dependency>
+        <dependency>
+            <groupId>ru.eu.webservices</groupId>
+            <artifactId>flights-webservice</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-web-service-wadl</id>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+                            <includeGroupIds>ru.eu.webservices</includeGroupIds>
+                            <includeArtifactIds>flights-webservice</includeArtifactIds>
+                            <includes>**\/*.wadl,**\/*.xsd</includes>
+                            <excludeTransitive>true</excludeTransitive>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jvnet.ws.wadl</groupId>
                 <artifactId>wadl-client-plugin</artifactId>
@@ -86,7 +107,7 @@
                 <configuration>
                     <generationStyle>jaxrs20</generationStyle>
                     <targets>
-                        <url>file:///${basedir}/src/main/resources/flights-webservice.wadl</url>
+                        <url>file:///${project.build.directory}/generated-resources/WEB-INF/wadl/application.wadl</url>
                     </targets>
                     <autoPackaging>false</autoPackaging>
                     <packageName>ru.eu.webservices.generated</packageName>

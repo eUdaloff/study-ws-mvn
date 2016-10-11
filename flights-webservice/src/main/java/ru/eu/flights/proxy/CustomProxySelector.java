@@ -1,4 +1,4 @@
-package ru.eu.flights.ws.proxy;
+package ru.eu.flights.proxy;
 
 import java.io.IOException;
 import java.net.*;

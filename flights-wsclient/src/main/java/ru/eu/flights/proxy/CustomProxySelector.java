@@ -9,7 +9,7 @@ public class CustomProxySelector extends ProxySelector {
 
     @Override
     public List<Proxy> select(URI uri) {
-        List<Proxy> list = new ArrayList<>();
+        List<Proxy> list = new ArrayList();
         if (uri.getScheme().toUpperCase().equals("HTTP")) {
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 3128));
             list.add(proxy);

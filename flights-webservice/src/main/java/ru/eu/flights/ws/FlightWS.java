@@ -11,7 +11,7 @@ import ru.eu.flights.objects.spr.City;
 import ru.eu.flights.objects.spr.Place;
 import ru.eu.flights.ws.annotations.ExceptionMessage;
 import ru.eu.flights.ws.exceptions.ArgumentException;
-import ru.eu.flights.ws.proxy.CustomProxySelector;
+import ru.eu.flights.proxy.CustomProxySelector;
 
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 @WebService(serviceName = "FlightWebService", endpointInterface = "ru.eu.flights.interfaces.sei.FlightSEI")
 //@BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 //@HandlerChain(file = "FlightWS_handlers.xml")
-@Addressing
+@Addressing(required = true)
 public class FlightWS implements FlightSEI {
 
     private BuyImpl buyImpl = new BuyImpl();

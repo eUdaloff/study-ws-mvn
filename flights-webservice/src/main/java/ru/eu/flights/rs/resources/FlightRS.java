@@ -6,7 +6,7 @@ import ru.eu.flights.interfaces.impls.SearchImpl;
 import ru.eu.flights.objects.Flight;
 import ru.eu.flights.objects.spr.City;
 import ru.eu.flights.rs.resources.objects.*;
-import ru.eu.flights.ws.proxy.CustomProxySelector;
+import ru.eu.flights.proxy.CustomProxySelector;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

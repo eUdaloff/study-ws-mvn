@@ -6,23 +6,26 @@ import com.intellij.uiDesigner.core.Spacer;
 import ru.eu.flights.callback.ListenerType;
 import ru.eu.flights.callback.Receptionist;
 import ru.eu.flights.callback.WsResultListener;
-import ru.eu.flights.client.FlightRS_Client;
+import ru.eu.flights.client.FlightWSClient;
+import ru.eu.flights.client.generated.Flight;
+import ru.eu.flights.client.generated.InvalidArgumentMN;
+import ru.eu.flights.client.generated.Passenger;
+import ru.eu.flights.client.generated.Place;
 import ru.eu.flights.gui.models.BoxModel;
 import ru.eu.flights.object.ExtPlace;
 import ru.eu.flights.utils.MessageManager;
-import ru.eu.webservices.generated.Flight;
-import ru.eu.webservices.generated.Passenger;
-import ru.eu.webservices.generated.Place;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class DialogBuyTicket extends JDialog implements WsResultListener {
+public class BuyTicketDialogWS extends JDialog implements WsResultListener {
 
-    private FlightRS_Client flightWSClient = FlightRS_Client.getInstance();
+    private FlightWSClient flightWSClient = FlightWSClient.getInstance();
     private Flight flight;
 
     private JPanel contentPane;
@@ -39,7 +42,7 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
     private JComboBox comboBoxPlaces;
     private JProgressBar progressBar;
 
-    public DialogBuyTicket(JFrame parent, boolean modal) {
+    public BuyTicketDialogWS(JFrame parent, boolean modal) {
         super(parent, modal);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(btnBuyTicket);
@@ -69,7 +72,6 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         setTitle("Покупка билета");
         pack();
-        setLocationRelativeTo(null);
         showOrHideProgressBar(false);
         Receptionist.getInstance().addListener(this, ListenerType.BUY_TICKET);
     }
@@ -84,13 +86,11 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
         passenger.setPhone(txtPhone.getText());
         Place place = (Place) comboBoxPlaces.getSelectedItem();
         showOrHideProgressBar(true);
-        Boolean result = flightWSClient.buyTicket(passenger, flight, place, txtAreaAddInfo.getText());
-        showOrHideProgressBar(false);
-        if (result) {
-            MessageManager.showInformMessage(DialogBuyTicket.this, "Покупка билета", "Все хорошо. Куплен.");
-            dispose();
-        } else {
-            MessageManager.showErrorMessage(DialogBuyTicket.this, "Покупка билета", "Ошибка. Не куплен.");
+        try {
+            flightWSClient.buyTicket(flight, place, passenger, txtAreaAddInfo.getText());
+        } catch (InvalidArgumentMN e) {
+            Logger.getLogger(BuyTicketDialogWS.class.getName()).log(Level.SEVERE, null, e);
+            MessageManager.showErrorMessage(this, "Ошибка", e.getMessage());
         }
     }
 
@@ -104,7 +104,7 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
     }
 
     private void fillPlaces() {
-        List<ExtPlace> freePlaces = new ArrayList<>();
+        List<ExtPlace> freePlaces = new ArrayList();
 
         for (Place place : flight.getAircraft().getFreePlaceList()) {
             ExtPlace ep = new ExtPlace();
@@ -115,7 +115,7 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
             ep.setSeatNumber(place.getSeatNumber());
             freePlaces.add(ep);
         }
-        comboBoxPlaces.setModel(new BoxModel<>(freePlaces));
+        comboBoxPlaces.setModel(new BoxModel(freePlaces));
     }
 
     private void showOrHideProgressBar(boolean b) {
@@ -127,10 +127,10 @@ public class DialogBuyTicket extends JDialog implements WsResultListener {
         showOrHideProgressBar(false);
         Boolean result = (Boolean) o;
         if (result) {
-            MessageManager.showInformMessage(DialogBuyTicket.this, "Покупка билета", "Все хорошо. Куплен.");
+            MessageManager.showInformMessage(BuyTicketDialogWS.this, "Покупка билета", "Все хорошо. Куплен.");
             dispose();
         } else {
-            MessageManager.showErrorMessage(DialogBuyTicket.this, "Покупка билета", "Ошибка. Не куплен.");
+            MessageManager.showErrorMessage(BuyTicketDialogWS.this, "Покупка билета", "Ошибка. Не куплен.");
         }
     }
 

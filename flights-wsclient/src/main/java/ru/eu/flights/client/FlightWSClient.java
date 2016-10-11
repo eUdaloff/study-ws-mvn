@@ -9,6 +9,7 @@ import ru.eu.flights.handler.ClientHandler;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.handler.Handler;
+import javax.xml.ws.soap.AddressingFeature;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +23,13 @@ public class FlightWSClient {
 
     private FlightWSClient() {
         flightService = new FlightWebService();
-        port = flightService.getFlightWSPort();
+        port = flightService.getFlightWSPort(new AddressingFeature());
         BindingProvider provider = (BindingProvider) port;
-        List<Handler> handlerChain = new ArrayList<>();
+        List<Handler> handlerChain = new ArrayList();
         handlerChain.add(new ClientHandler());
         provider.getBinding().setHandlerChain(handlerChain);
         provider.getRequestContext().put(AddressingHandler.REPLY_TO, CallbackSEI.REPLY_TO_ADDRESS);
-        System.out.println("Publishing client callback service on " + CallbackSEI.REPLY_TO_ADDRESS + "...");
+        System.out.println("Publishing client callback service on " + CallbackSEI.REPLY_TO_ADDRESS + " ...");
         Endpoint.publish(CallbackSEI.REPLY_TO_ADDRESS, callbackSEI);
     }
 
